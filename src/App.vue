@@ -6,16 +6,19 @@
     <input type="radio" id="premium" value="premium" v-model="plan">
     <label for="premium">Premium</label>
     <hello :plan="plan"></hello>
+    <image-loader></image-loader>
   </div>
 </template>
 
 <script>
 import Hello from './components/Hello'
+import ImageLoader from './components/ImageLoader'
 
 export default {
   name: 'app',
   components: {
-    Hello
+    Hello,
+    ImageLoader
   },
   data () {
     return {
