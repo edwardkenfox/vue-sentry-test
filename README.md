@@ -7,7 +7,16 @@
 ``` bash
 # install dependencies
 npm install
+```
 
+``` diff
+# open main.js and put your sentry DSN
+
+-  .config(YOUR_SENTRY_DSN)
++  .config('actual DSN')
+```
+
+``` bash
 # serve with hot reload at localhost:8080
 npm run dev
 
