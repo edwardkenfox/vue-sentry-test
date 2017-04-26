@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+    <input type="radio" id="free" value="free" v-model="plan">
+    <label for="free">Free</label>
+    <br>
+    <input type="radio" id="premium" value="premium" v-model="plan">
+    <label for="premium">Premium</label>
+    <hello :plan="plan"></hello>
   </div>
 </template>
 
@@ -12,6 +16,15 @@ export default {
   name: 'app',
   components: {
     Hello
+  },
+  data () {
+    return {
+      plan: 'free'
+    }
+  },
+  created: function() {
+    // Uncomment to raise error from App component
+    // this.fooFromApp()
   }
 }
 </script>

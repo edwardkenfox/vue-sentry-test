@@ -1,32 +1,68 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <p>{{ label }}</p>
+    <button @click="submitAndError">Click and throw an error!</button>
+    <button @click="fetchAndError">Click and call an API!</button>
+    <textarea v-model="message"></textarea>
   </div>
 </template>
 
 <script>
+import Raven from 'raven-js'
+
 export default {
   name: 'hello',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      message: ''
     }
+  },
+  props: {
+    plan: {
+      type: String,
+      required: true,
+    }
+  },
+  watch: {
+    message: function(val) {
+      localStorage.setItem('message', val)
+    }
+  },
+  computed: {
+    label: function() {
+      return `Welcome to your ${this.plan} Vue.js App`
+    }
+  },
+  methods: {
+    submitAndError: function() {
+      alert(this.undeclaredMethod())
+    },
+    fetchAndError: function() {
+      const url = 'https://jsonplaceholder.typicode.com/posts/1';
+
+      fetch(url)
+      .then(res => {
+        return res.json()
+      })
+      .then(json => {
+        const data = JSON.parse(json)
+      })
+      .catch(err => {
+        console.log(err)
+        Raven.captureException(err, {
+          extra: {
+            componentName: this.$options.name,
+            data: this.$data,
+            propsData: this.$options.propsData,
+            localStorage: window.localStorage
+          }
+        });
+      })
+    }
+  },
+  created: function() {
+    // Uncomment to raise error from Hello component
+    // this.fooFromHello()
   }
 }
 </script>
