@@ -4,7 +4,8 @@ import Vue from 'vue'
 import App from './App'
 
 import Raven from 'raven-js'
-import RavenVue from 'raven-js/plugins/vue'
+// import RavenVue from 'raven-js/plugins/vue'
+import RavenVue from './raven-vue.js'
 
 Raven
   .config(YOUR_SENTRY_DSN)
