@@ -3,6 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 
+import Raven from 'raven-js'
+import RavenVue from 'raven-js/plugins/vue'
+
+Raven
+  .config(YOUR_SENTRY_DSN)
+  .addPlugin(RavenVue, Vue)
+  .install()
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
